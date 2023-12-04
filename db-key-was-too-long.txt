@@ -1,0 +1,11 @@
+## Command rails db:create db:migrate failed max length
+
+Console Error:
+
+ActiveRecord::StatementInvalid: Mysql2::Error: Specified key was too long; max key length is 1000 bytes (ActiveRecord::StatementInvalid)
+
+Fix guide:
+
+1. Community mentioned that change column string length to 100, but this method did not work for me.
+2. But this works for me, I switch db engine from MyISAM to InnoDB, no more action needed.
+3. DONE
