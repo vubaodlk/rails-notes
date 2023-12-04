@@ -1,0 +1,39 @@
+## API request failed with devise API way
+
+Console Error:
+
+ActionDispatch::Request::Session::DisabledSessionError
+Your application has sessions disabled. To write to the session you must first configure a session store
+
+Fix guide:
+
+1. Create new file app/controllers/concerns/rack_session_fix.rb to fake session because we don't use session cookie in API
+
+module RackSessionFix
+  extend ActiveSupport::Concern
+  class FakeRackSession < Hash
+    def enabled?
+      false
+    end
+  end
+  included do
+    before_action :set_fake_rack_session_for_devise
+    private
+    def set_fake_rack_session_for_devise
+      request.env['rack.session'] ||= FakeRackSession.new
+    end
+  end
+end
+
+2. Include file in both devise controllers
+
+class Users::SessionsController < Devise::SessionsController
+  include RackSessionFix
+  ...
+end
+
+
+class Users::RegistrationsController < Devise::RegistrationsController
+  include RackSessionFix
+  ...
+end
