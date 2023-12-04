@@ -1,0 +1,12 @@
+## Command rails g devise:install failed
+
+Console Error: 
+
+ActiveSupport::MessageEncryptor::InvalidMessage
+
+Fix guide:
+
+1. Remove file credentials.yml.enc
+2. Run command `rails credentials:edit`
+3. Re-run commmand `rails g devise:install`
+4. DONE 
